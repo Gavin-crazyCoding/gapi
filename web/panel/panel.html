@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>gapi · 面板</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="/style.css?v=20260919a">
+</head>
+<body>
+
+<div id="app">
+  <header>
+    <div class="brand"><span class="dot"></span>gapi</div>
+    <button id="navToggle" class="nav-toggle" aria-label="菜单" aria-expanded="false"><svg width="18" height="12" viewBox="0 0 18 12" aria-hidden="true"><rect width="18" height="2" rx="1" fill="currentColor"/><rect y="5" width="18" height="2" rx="1" style="fill:var(--accent)"/><rect y="10" width="18" height="2" rx="1" fill="currentColor"/></svg></button>
+    <nav id="mainNav">
+      <button data-tab="overview" class="active">概览</button>
+      <button data-tab="playground">试验场</button>
+      <button data-tab="models">模型</button>
+      <button data-tab="keys">密钥</button>
+      <button data-tab="docs">快速文档</button>
+      <button data-tab="billing">账单</button>
+      <button data-tab="usage">用量</button>
+      <!-- 管理员按钮默认隐藏：/auth/me 确认角色后才由 panel.js 显示。
+           若默认可见，慢网络下普通用户会在 JS 隐藏它们之前看到完整管理菜单。 -->
+      <button data-tab="stats" class="admin-tab hidden">统计</button>
+      <button data-tab="settings" class="admin-tab hidden">设置</button>
+      <button data-tab="users" class="admin-tab hidden">用户</button>
+      <button data-tab="announcements" class="admin-tab hidden">公告</button>
+    </nav>
+    <div class="spacer"></div>
+    <span class="who" id="who"></span>
+    <button class="danger" id="logout" style="margin-left:12px">退出</button>
+  </header>
+
+  <main>
+    <!-- overview -->
+    <section id="tab-overview">
+      <h1>概览</h1>
+      <p class="sub">余额、近 30 天用量与最近请求</p>
+
+      <div class="grid">
+        <div class="stat"><div class="k">GavinCoin 余额</div><div class="v coin" id="stBal">◎ –</div></div>
+        <div class="stat"><div class="k">30 天消耗</div><div class="v coin" id="stSpend">◎ –</div></div>
+        <div class="stat"><div class="k">30 天请求</div><div class="v" id="stReq">–</div></div>
+      </div>
+
+      <!-- 新用户引导：30 天内没有请求时显示 -->
+      <div class="panel hidden" id="gettingStarted">
+        <h2>👋 三分钟接入 gapi</h2>
+        <ol class="steps">
+          <li>
+            <div>
+              <div class="st-title">创建一把 API 密钥</div>
+              <div class="st-desc">打开 <a data-goto="keys">「密钥」</a> 标签页，点击「创建密钥」。<b>明文只显示一次</b>，请立即保存。</div>
+            </div>
+          </li>
+          <li>
+            <div>
+              <div class="st-title">用你熟悉的 SDK 发起调用</div>
+              <div class="st-desc">把 base_url 指向本站、API Key 填成 gapi 密钥即可——OpenAI / Anthropic SDK 都支持，密钥页有可复制的完整示例。</div>
+            </div>
+          </li>
+          <li>
+            <div>
+              <div class="st-title">回到这里看用量与花费</div>
+              <div class="st-desc">每次请求的 token 数、GavinCoin 花费、耗时和状态都会记录在 <a data-goto="usage">「用量」</a> 中。</div>
+            </div>
+          </li>
+        </ol>
+        <div class="callout info" style="margin:16px 0 0">
+          💡 不确定用哪个模型？直接把 model 填 <code class="mono">auto</code>，网关会自动挑选当前可用的免费模型，失败自动切换。
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>近 30 天 token 用量</h2>
+        <div class="bars" id="chart"></div>
+        <div class="empty hidden" id="chartEmpty">暂无用量</div>
+      </div>
+
+      <div class="panel">
+        <h2>最近请求</h2>
+        <div id="recentWrap"></div>
+      </div>
+
+      <div class="panel">
+        <h2>账号</h2>
+        <div class="row" style="align-items:flex-end">
+          <div>
+            <label for="pwOld">当前密码</label>
+            <input id="pwOld" type="password" autocomplete="current-password">
+          </div>
+          <div>
+            <label for="pwNew">新密码（至少 8 位）</label>
+            <input id="pwNew" type="password" autocomplete="new-password">
+          </div>
+          <button id="pwBtn" style="width:auto">修改密码</button>
+        </div>
+        <div class="msg" id="pwMsg"></div>
+        <div class="row" style="margin-top:10px;align-items:center">
+          <span class="muted" id="emailStatus">邮箱验证状态：…</span>
+          <button class="ghost" id="resendBtn" style="width:auto" hidden>重发验证邮件</button>
+        </div>
+        <div class="msg" id="resendMsg"></div>
+      </div>
+    </section>
+
+    <!-- playground -->
+    <section id="tab-playground" class="hidden">
+      <div class="pg-head">
+        <div>
+          <h1>试验场</h1>
+          <p class="sub" style="margin-bottom:0">直接在浏览器里试模型，走网关真实计费，免填 API Key</p>
+        </div>
+        <div class="pg-controls">
+          <select id="pgModel" title="选择模型"></select>
+          <button id="pgSettingsBtn" class="pg-ghost">参数</button>
+          <button id="pgClearBtn" class="pg-ghost">清空对话</button>
+        </div>
+      </div>
+
+      <div class="panel pg-settings hidden" id="pgSettings">
+        <div class="pg-grid">
+          <div>
+            <label for="pgSystem">System Prompt（系统提示词，可空）</label>
+            <textarea id="pgSystem" rows="2" placeholder="你是一个简洁的中文助手……"></textarea>
+          </div>
+          <div class="pg-knobs">
+            <div>
+              <label for="pgTemp">Temperature <span class="muted" id="pgTempVal">1.0</span></label>
+              <input type="range" id="pgTemp" min="0" max="2" step="0.1" value="1">
+            </div>
+            <div>
+              <label for="pgTopP">Top P <span class="muted" id="pgTopPVal">1.0</span></label>
+              <input type="range" id="pgTopP" min="0" max="1" step="0.05" value="1">
+            </div>
+            <div>
+              <label for="pgMaxTokens">Max Tokens</label>
+              <input type="number" id="pgMaxTokens" min="1" max="1000000" value="1024">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel pg-panel">
+        <div id="pgMessages" class="pg-messages">
+          <div class="pg-empty empty" id="pgEmpty">选择模型，发条消息开始。输入 <b>auto</b> 或具体模型名，都会按你的路由策略转发。</div>
+        </div>
+        <div class="pg-composer">
+          <textarea id="pgInput" rows="1" placeholder="输入消息，Enter 发送 / Shift+Enter 换行…"></textarea>
+          <button id="pgSend">发送</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- models -->
+    <section id="tab-models" class="hidden">
+      <h1>可用模型</h1>
+      <p class="sub">
+        实时取自上游 <code class="mono">/v1/models?execution_status=ready</code>，
+        只列出此刻真能调通的模型。<span id="mMeta" class="muted"></span>
+      </p>
+
+      <div class="panel">
+        <div class="row">
+          <div>
+            <label for="mFilter">筛选</label>
+            <input id="mFilter" placeholder="输入模型名过滤…">
+          </div>
+          <div>
+            <label for="routingSelect">路由策略</label>
+            <select id="routingSelect">
+              <option value="auto">Auto（自动）</option>
+              <option value="fastest">最快速</option>
+              <option value="smart">最智能</option>
+              <option value="balanced">均衡</option>
+              <option value="stable">最稳定</option>
+            </select>
+          </div>
+          <button id="mRefresh">刷新</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>模型 <span class="muted" id="mCount"></span></h2>
+        <div id="mWrap"><div class="empty">加载中…</div></div>
+        <div class="callout info" style="margin-top:12px">提示：<span class="badge badge-router">router</span> 表示模型是路由器，只负责转发；<span class="badge badge-fallback">fallback</span> 表示模型在当前无可用配额时会被作为后备。</div>
+      </div>
+    </section>
+
+    <!-- keys -->
+    <section id="tab-keys" class="hidden">
+      <h1>API 密钥</h1>
+      <p class="sub">用这些密钥调用 <code class="mono">/v1/*</code>（兼容 OpenAI 与 Anthropic 格式）。明文只在创建时显示一次。</p>
+
+      <div class="panel">
+        <div class="row">
+          <div>
+            <label for="keyName">名称</label>
+            <input id="keyName" placeholder="my-app">
+          </div>
+          <button id="createKey">创建密钥</button>
+        </div>
+        <div id="newKey"></div>
+      </div>
+
+      <div class="panel">
+        <h2>已有密钥</h2>
+        <div id="keysWrap"></div>
+      </div>
+    </section>
+
+    <!-- billing -->
+    <section id="tab-billing" class="hidden">
+      <h1>账单</h1>
+      <p class="sub">GavinCoin 余额、代币包与流水</p>
+
+      <div class="grid">
+        <div class="stat"><div class="k">余额</div><div class="v coin" id="bBal">◎ –</div></div>
+        <div class="stat"><div class="k">生效中配额</div><div class="v" id="bTokens">–</div></div>
+        <div class="stat"><div class="k">订阅汇率</div><div class="v" id="bRate">–</div></div>
+      </div>
+
+      <div class="panel">
+        <h2>开通配额计划</h2>
+        <p class="sub" style="margin:0 0 14px">
+          订阅期内调用优先扣减配额（批量折扣价），不额外扣 GavinCoin；配额用尽后按量计费。
+          周期结束未用完的配额<b>自动清零</b>，不自动续费。
+        </p>
+        <div class="row">
+          <div>
+            <label for="buyCost">花费 GavinCoin</label>
+            <input id="buyCost" type="number" min="0.01" step="0.01" placeholder="10">
+          </div>
+          <div>
+            <label for="buyDays">周期天数（默认 30 天）</label>
+            <input id="buyDays" type="number" min="1" value="30">
+          </div>
+          <button id="buyBtn">开通</button>
+        </div>
+        <div class="msg" id="buyMsg"></div>
+      </div>
+
+      <div class="panel">
+        <h2>兑换码</h2>
+        <div class="row" style="align-items:flex-end">
+          <div style="flex:1">
+            <label for="redeemCode">输入兑换码（形如 GAVI-XXXX-XXXX-XXXX）</label>
+            <input id="redeemCode" placeholder="GAVI-…" style="font-family:monospace">
+          </div>
+          <button id="redeemBtn" style="width:auto">兑换</button>
+        </div>
+        <div class="msg" id="redeemMsg"></div>
+      </div>
+
+      <div class="panel">
+        <h2>我的配额计划</h2>
+        <div id="pkgWrap"></div>
+      </div>
+
+      <div class="panel">
+        <h2>流水</h2>
+        <div id="txWrap"></div>
+      </div>
+    </section>
+
+    <!-- docs -->
+    <section id="tab-docs" class="hidden">
+      <h1>快速文档</h1>
+      <p class="sub">常用操作示例与说明</p>
+
+      <div class="panel">
+        <h2>🚀 快速开始</h2>
+        <ol class="steps">
+          <li>
+            <div>
+              <div class="st-title">创建 API 密钥</div>
+              <div class="st-desc">前往「密钥」标签页，输入名称并点击「创建密钥」。</div>
+            </div>
+          </li>
+          <li>
+            <div>
+              <div class="st-title">复制密钥</div>
+              <div class="st-desc"><b>明文只显示一次</b>，请立即复制保存。</div>
+            </div>
+          </li>
+          <li>
+            <div>
+              <div class="st-title">发起 API 调用</div>
+              <div class="st-desc">将 base_url 改为本站地址，使用你的 gapi 密钥作为 API Key。</div>
+            </div>
+          </li>
+        </ol>
+      </div>
+
+      <div class="panel">
+        <h2>📖 OpenAI SDK 示例</h2>
+        <div class="codeblock">
+          <div class="cb-head"><span class="cb-lang">Python</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div>
+          <pre><code>import openai
+
+client = openai.OpenAI(
+    base_url="http://localhost:3002/v1",
+    api_key="gapi-xxxxxxxxxxxxxxxxxxxxxxxx"
+)
+
+response = client.chat.completions.create(
+    model="auto",          # 自动选择最优模型
+    messages=[{"role": "user", "content": "Hello!"}],
+    stream=True
+)
+
+for chunk in response:
+    if chunk.choices[0].delta.content:
+        print(chunk.choices[0].delta.content, end="")</code></pre>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>📖 Anthropic SDK 示例</h2>
+        <div class="codeblock">
+          <div class="cb-head"><span class="cb-lang">Python</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div>
+          <pre><code>import anthropic
+
+client = anthropic.Anthropic(
+    base_url="http://localhost:3002/v1",
+    api_key="gapi-xxxxxxxxxxxxxxxxxxxxxxxx"
+)
+
+message = client.messages.create(
+    model="auto",
+    max_tokens=1024,
+    messages=[{"role": "user", "content": "Hello!"}]
+)
+print(message.content)</code></pre>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>💡 路由策略说明</h2>
+        <table>
+          <thead><tr><th>策略</th><th>说明</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">auto</td><td>自动选择当前最可用的免费模型</td></tr>
+            <tr><td class="mono">fastest</td><td>优先选择响应速度最快的模型</td></tr>
+            <tr><td class="mono">smart</td><td>优先选择智能程度最高的模型</td></tr>
+            <tr><td class="mono">balanced</td><td>速度与质量的均衡选择</td></tr>
+            <tr><td class="mono">stable</td><td>优先选择最稳定的模型</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="panel">
+        <h2>💰 GavinCoin 获取方式</h2>
+        <ul class="callout info">
+          <li><b>每日登录奖励</b>：每天登录可领取 <b>◎1</b> GavinCoin</li>
+          <li><b>注册赠送</b>：新用户注册即送 <b>◎20</b> GavinCoin</li>
+          <li><b>购买代币包</b>：在「账单」页面购买，◎1 ≈ 10万 tokens（批量折扣价）</li>
+          <li><b>联系方式</b>：如需额外充值，请联系 <b>QQ: 3829289416</b>，1元=100 GavinCoin</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- usage -->
+    <section id="tab-usage" class="hidden">
+      <h1>用量</h1>
+      <p class="sub">按模型与按天统计（近 30 天）</p>
+      <div class="panel"><h2>按模型</h2><div id="umWrap"></div></div>
+      <div class="panel"><h2>按天</h2><div id="udWrap"></div></div>
+    </section>
+
+    <!-- stats (admin) -->
+    <section id="tab-stats" class="hidden">
+      <h1>统计</h1>
+      <p class="sub">全站运行概况（近 30 天）</p>
+
+      <div class="grid">
+        <div class="stat"><div class="k">注册用户</div><div class="v" id="stUsers">–</div></div>
+        <div class="stat"><div class="k">7 天新增</div><div class="v" id="stSignups">–</div></div>
+        <div class="stat"><div class="k">30 天请求</div><div class="v" id="stReqs">–</div></div>
+        <div class="stat"><div class="k">30 天 Tokens</div><div class="v" id="stToks">–</div></div>
+        <div class="stat"><div class="k">30 天消耗</div><div class="v coin" id="stSpend2">◎ –</div></div>
+        <div class="stat"><div class="k">30 天兑换</div><div class="v" id="stRedeems">–</div></div>
+      </div>
+
+      <div class="panel">
+        <h2>近 7 天请求量</h2>
+        <div class="bars" id="stChart"></div>
+        <div class="empty hidden" id="stChartEmpty">暂无数据</div>
+      </div>
+
+      <div class="row" style="align-items:flex-start;gap:16px">
+        <div class="panel" style="flex:1">
+          <h2>Top 模型（消耗）</h2>
+          <div id="stModels"></div>
+        </div>
+        <div class="panel" style="flex:1">
+          <h2>Top 用户（消耗）</h2>
+          <div id="stUsersTop"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- settings (admin) -->
+    <section id="tab-settings" class="hidden">
+      <h1>系统设置</h1>
+      <p class="sub">GavinCoin 兑换率、每日奖励与账号限额。仅管理员可见。</p>
+
+      <div class="panel">
+        <h2>GavinCoin 经济参数</h2>
+        <div class="row">
+          <div>
+            <label for="setRateMult">计费倍率（试验场与 API 按量扣费 × 倍率，立即生效）</label>
+            <input id="setRateMult" type="number" min="0.01" step="0.01" placeholder="1">
+          </div>
+          <div>
+            <label for="setCoinRate">配额兑换率（仅购包：1 ◎ = 多少千 token）</label>
+            <input id="setCoinRate" type="number" min="0" step="0.01" placeholder="100">
+          </div>
+          <div>
+            <label for="setDailyBonus">每日登录奖励（◎）</label>
+            <input id="setDailyBonus" type="number" min="0" step="0.01" placeholder="1">
+          </div>
+          <div>
+            <label for="setRegBonus">注册赠送（◎）</label>
+            <input id="setRegBonus" type="number" min="0" step="0.01" placeholder="20">
+          </div>
+          <div>
+            <label for="setMaxCoin">单账号 GavinCoin 上限</label>
+            <input id="setMaxCoin" type="number" min="0" step="0.01" placeholder="1000000">
+          </div>
+        </div>
+        <p class="sub" style="margin:0 0 8px">按量计费单价由模型定价表决定（CLI <code>manage.py pricing set</code>），计费倍率在其基础上整体缩放。</p>
+        <div class="row" style="margin-top:4px">
+          <label><input type="checkbox" id="setRegOpen" checked> 开放公开注册（关闭后仅管理员可建账号）</label>
+        </div>
+        <div class="msg" id="setMsg"></div>
+        <button class="primary" id="saveSettings" style="width:auto">保存设置</button>
+      </div>
+    </section>
+
+    <!-- users (admin) -->
+    <section id="tab-users" class="hidden">
+      <h1>用户管理</h1>
+      <p class="sub">查看与调整用户账号、角色、并发上限与 GavinCoin 余额。仅管理员可见。</p>
+
+      <div class="panel">
+        <h2>创建用户</h2>
+        <div class="row">
+          <div><label for="nuEmail">邮箱</label><input id="nuEmail" type="email"></div>
+          <div><label for="nuPass">密码（至少 8 位）</label><input id="nuPass" type="password"></div>
+          <div>
+            <label for="nuRole">角色</label>
+            <select id="nuRole">
+              <option value="user">user</option>
+              <option value="admin">admin</option>
+              <option value="moderator">moderator</option>
+            </select>
+          </div>
+          <div><label for="nuConcurrent">并发上限</label><input id="nuConcurrent" type="number" min="1" max="100" value="5"></div>
+          <button id="createUser">创建</button>
+        </div>
+        <div class="msg" id="nuMsg"></div>
+      </div>
+
+      <div class="panel">
+        <h2>全部用户 <span class="muted" id="uCount"></span></h2>
+        <div id="usersWrap"></div>
+      </div>
+    </section>
+
+    <!-- announcements (admin) -->
+    <section id="tab-announcements" class="hidden">
+      <h1>公告管理</h1>
+      <p class="sub">发布全站公告，用户登录时自动弹出。仅管理员可见。</p>
+
+      <div class="panel">
+        <h2>新建公告</h2>
+        <div class="row">
+          <div><label for="anTitle">标题</label><input id="anTitle"></div>
+          <div>
+            <label for="anPriority">优先级（数字，越高越靠前）</label>
+            <input id="anPriority" type="number" value="0">
+          </div>
+          <div>
+            <label for="anHtml"><input type="checkbox" id="anHtml"> 以 HTML 渲染</label>
+          </div>
+        </div>
+        <div>
+          <label for="anContent">内容（支持多行）</label>
+          <textarea id="anContent" rows="4"></textarea>
+        </div>
+        <div class="row">
+          <div><label for="anStart">开始时间（ISO，可空）</label><input id="anStart" placeholder="2026-01-01T00:00"></div>
+          <div><label for="anEnd">结束时间（ISO，可空）</label><input id="anEnd" placeholder="2026-12-31T23:59"></div>
+        </div>
+        <div class="msg" id="anMsg"></div>
+        <button class="primary" id="createAnnouncement" style="width:auto">发布公告</button>
+      </div>
+
+      <div class="panel">
+        <h2>已有公告</h2>
+        <div id="announcementsWrap"></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="/fp.js?v=20260919a"></script>
+<script type="module" src="/panel/assets/panel.js?v=20260919a"></script>
+</body>
+</html>

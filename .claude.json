@@ -1,0 +1,1229 @@
+{
+  "numStartups": 120,
+  "installMethod": "global",
+  "externalEditorContext": true,
+  "tipsHistory": {
+    "new-user-warmup": 1,
+    "plan-mode-for-complex-tasks": 118,
+    "memory-command": 108,
+    "theme-command": 104,
+    "status-line": 103,
+    "prompt-queue": 17,
+    "enter-to-steer-in-relatime": 105,
+    "todo-list": 106,
+    "ide-upsell-external-terminal": 117,
+    "drag-and-drop-images": 118,
+    "double-esc-code-restore": 119,
+    "continue": 120,
+    "shift-tab": 113,
+    "install-github-app": 7,
+    "install-slack-app": 7,
+    "image-paste": 107,
+    "no-flicker": 113,
+    "subagent-fanout-nudge": 116,
+    "dynamic-workflows": 117,
+    "loop-command-nudge": 117,
+    "c4e-remote-sessions": 10,
+    "permissions": 114,
+    "rename-conversation": 118,
+    "agents-view-multiclauding": 28,
+    "color-when-multi-clauding": 114,
+    "c4e-ultrareview": 25,
+    "goal-command-nudge": 25,
+    "git-worktrees": 113
+  },
+  "promptQueueUseCount": 115,
+  "unpinOpus47LaunchEffort": true,
+  "unpinOpus48LaunchEffort": true,
+  "unpinFable5LaunchEffort": true,
+  "firstStartTime": "2026-08-24T13:42:15.748Z",
+  "firstStartVersion": "2.1.241",
+  "machineID": "72d2d67802ed5ebeb185d83d78f8b1bf817718991b5b03a5f79a99e004d0aadd",
+  "opusProMigrationComplete": true,
+  "sonnet1m45MigrationComplete": true,
+  "seenNotifications": {},
+  "hasResetAutoModeOptInForDefaultOffer": true,
+  "migrationVersion": 14,
+  "userID": "f5fbf19a09e63d97449a2281570b84acbd96f241d7ef8279ef7df3ef1f322086",
+  "changelogLastFetched": 1789183286725,
+  "hasCompletedOnboarding": true,
+  "lastOnboardingVersion": "2.1.241",
+  "lastReleaseNotesSeen": "2.1.269",
+  "projects": {
+    "/root": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "mcpServers": {
+        "hexstrike-ai": {
+          "type": "stdio",
+          "command": "bash",
+          "args": [
+            "-c",
+            "hexstrike_server --host 127.0.0.1 --port 8888 & sleep 2 && hexstrike_mcp --server http://127.0.0.1:8888"
+          ],
+          "env": {}
+        }
+      },
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": false,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [],
+      "lastGracefulShutdown": true,
+      "lastVersionBase": "2.1.268",
+      "lastCost": 0,
+      "lastAPIDuration": 0,
+      "lastAPIDurationWithoutRetries": 0,
+      "lastToolDuration": 0,
+      "lastDuration": 534583,
+      "lastStartTime": 1789128575790,
+      "lastLinesAdded": 0,
+      "lastLinesRemoved": 0,
+      "lastTotalInputTokens": 0,
+      "lastTotalOutputTokens": 0,
+      "lastTotalCacheCreationInputTokens": 0,
+      "lastTotalCacheReadInputTokens": 0,
+      "lastTotalWebSearchRequests": 0,
+      "lastModelUsage": {},
+      "lastSessionId": "14e4d124-69c1-443b-bff8-4ba1c4901e12",
+      "lastSessionMetrics": {
+        "frame_duration_ms_count": 23,
+        "frame_duration_ms_min": 0.08312499999988177,
+        "frame_duration_ms_max": 7.8884369999999535,
+        "frame_duration_ms_avg": 1.104909521735324,
+        "frame_duration_ms_p50": 0.19249999997555278,
+        "frame_duration_ms_p95": 3.4680939000206985,
+        "frame_duration_ms_p99": 6.9229579800050285,
+        "hook_duration_ms_count": 1,
+        "hook_duration_ms_min": 20213,
+        "hook_duration_ms_max": 20213,
+        "hook_duration_ms_avg": 20213,
+        "hook_duration_ms_p50": 20213,
+        "hook_duration_ms_p95": 20213,
+        "hook_duration_ms_p99": 20213
+      },
+      "disabledMcpServers": [
+        "plugin:vercel:vercel",
+        "plugin:terraform:terraform",
+        "plugin:atlassian:atlassian",
+        "plugin:aws-serverless:aws-serverless-mcp",
+        "plugin:circleback:circleback",
+        "plugin:cloudflare:cloudflare-api",
+        "plugin:cloudflare:cloudflare-bindings",
+        "plugin:cloudflare:cloudflare-observability",
+        "plugin:cloudflare:cloudflare-builds",
+        "plugin:adobe-for-creativity:Adobe for creativity",
+        "plugin:aikido:aikido-mcp",
+        "plugin:atlan:atlan",
+        "plugin:aws-core:aws-mcp",
+        "plugin:azure:azure",
+        "plugin:bigdata-com:bigdata.com",
+        "plugin:datadog:mcp",
+        "plugin:discord:discord",
+        "plugin:zapier:zapier",
+        "plugin:deploy-on-aws:awsiac",
+        "plugin:ui5:ui5-mcp-server",
+        "plugin:telegram:telegram",
+        "plugin:sourcegraph:sourcegraph",
+        "plugin:serena:serena",
+        "plugin:prisma:Prisma-Local",
+        "plugin:mongodb:mongodb",
+        "plugin:imessage:imessage",
+        "plugin:huggingface-skills:huggingface-skills",
+        "plugin:deploy-on-aws:awspricing",
+        "plugin:fakechat:fakechat",
+        "plugin:amazon-location-service:aws-mcp",
+        "plugin:browser-use:browser-use",
+        "plugin:cloudinary:cloudinary-analysis",
+        "plugin:vanta:vanta-us",
+        "plugin:vanta:vanta-eu",
+        "plugin:vanta:vanta-aus",
+        "plugin:supabase:supabase",
+        "plugin:stripe:stripe",
+        "plugin:slack:slack",
+        "plugin:sentry:sentry",
+        "plugin:revenuecat:RevenueCat",
+        "plugin:resend:resend",
+        "plugin:prisma:Prisma-Remote",
+        "plugin:postman:postman",
+        "plugin:posthog:posthog",
+        "plugin:planetscale:planetscale",
+        "plugin:nimble:nimble",
+        "plugin:netlify-skills:netlify",
+        "plugin:neon:neon",
+        "plugin:cloudinary:cloudinary-asset-mgmt",
+        "plugin:cloudinary:cloudinary-env-config",
+        "plugin:cloudinary:cloudinary-mediaflows",
+        "plugin:cloudinary:cloudinary-smd",
+        "plugin:dak:alloydb-postgres-admin",
+        "plugin:dak:cloud-sql-postgresql-admin",
+        "plugin:dak:notebook",
+        "plugin:dak:visualization",
+        "plugin:databases-on-aws:aurora-dsql",
+        "plugin:databases-on-aws:cloudwatch",
+        "plugin:greptile:greptile",
+        "plugin:fiftyone:fiftyone",
+        "plugin:expo:expo",
+        "plugin:figma:figma",
+        "plugin:firebase:firebase",
+        "plugin:gitlab:gitlab",
+        "plugin:intercom:intercom",
+        "plugin:laravel-boost:laravel-boost",
+        "plugin:legalzoom:legalzoom",
+        "plugin:linear:linear",
+        "plugin:zoom-plugin:zoom-canvas-mcp",
+        "plugin:github:github",
+        "plugin:zoom-plugin:zoom-mcp",
+        "plugin:zoom-plugin:zoom-meetings-mcp",
+        "plugin:zoom-plugin:zoom-chat-mcp",
+        "plugin:zoom-plugin:zoom-tasks-mcp",
+        "plugin:zoom-plugin:zoom-revenue-accelerator-mcp",
+        "plugin:zoom-plugin:zoom-whiteboard-mcp",
+        "plugin:airwallex-agentos:airwallex-agentos",
+        "plugin:airwallex-agentos:airwallex-dev",
+        "plugin:aws-agents-for-devsecops:aws-devops-agent",
+        "plugin:aws-data-analytics:aws-mcp",
+        "plugin:aws-transform:aws-transform-mcp"
+      ],
+      "lastFpsAverage": 0.04,
+      "lastFpsLow1Pct": 126.77
+    },
+    "/root/ICP_Query": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": true,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "lastGracefulShutdown": true,
+      "lastVersionBase": "2.1.241",
+      "hasUnseenTeamArtifacts": false,
+      "exampleFiles": [
+        "icpApi.py",
+        "index.html",
+        "main.rs",
+        "config_routes.py",
+        "256.md\""
+      ],
+      "exampleFilesGeneratedAt": 1787661828136,
+      "lastCost": 0,
+      "lastAPIDuration": 0,
+      "lastAPIDurationWithoutRetries": 0,
+      "lastToolDuration": 0,
+      "lastDuration": 21735,
+      "lastStartTime": 1787661826685,
+      "lastLinesAdded": 0,
+      "lastLinesRemoved": 0,
+      "lastTotalInputTokens": 0,
+      "lastTotalOutputTokens": 0,
+      "lastTotalCacheCreationInputTokens": 0,
+      "lastTotalCacheReadInputTokens": 0,
+      "lastTotalWebSearchRequests": 0,
+      "lastFpsAverage": 2.51,
+      "lastFpsLow1Pct": 124.93,
+      "lastModelUsage": {},
+      "lastSessionId": "a10cb01c-e68a-4b4d-b8f3-7debb591b3d2",
+      "lastSessionMetrics": {
+        "frame_duration_ms_count": 52,
+        "frame_duration_ms_min": 0.09328099999993356,
+        "frame_duration_ms_max": 8.004635000000007,
+        "frame_duration_ms_avg": 1.8405288269230504,
+        "frame_duration_ms_p50": 1.4311195000000225,
+        "frame_duration_ms_p95": 5.303083200000181,
+        "frame_duration_ms_p99": 6.951431960000002
+      }
+    },
+    "/root/freellmapi": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": true,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "lastGracefulShutdown": false,
+      "lastVersionBase": "2.1.269",
+      "exampleFiles": [
+        "proxy.ts",
+        "router.ts",
+        "types.ts",
+        "KeysPage.tsx",
+        "index.ts"
+      ],
+      "exampleFilesGeneratedAt": 1787743690435,
+      "lastCost": 0,
+      "lastAPIDuration": 0,
+      "lastAPIDurationWithoutRetries": 0,
+      "lastToolDuration": 0,
+      "lastDuration": 1414660,
+      "lastStartTime": 1789214326936,
+      "lastLinesAdded": 0,
+      "lastLinesRemoved": 0,
+      "lastTotalInputTokens": 0,
+      "lastTotalOutputTokens": 0,
+      "lastTotalCacheCreationInputTokens": 0,
+      "lastTotalCacheReadInputTokens": 0,
+      "lastTotalWebSearchRequests": 0,
+      "lastModelUsage": {},
+      "lastSessionId": "6e912880-0e5a-4613-8f49-be6c5e53093b",
+      "lastSessionMetrics": {
+        "frame_duration_ms_count": 35814,
+        "frame_duration_ms_min": 0.09848900000008598,
+        "frame_duration_ms_max": 399.4198440000182,
+        "frame_duration_ms_avg": 5.499090761658025,
+        "frame_duration_ms_p50": 3.8956510003772564,
+        "frame_duration_ms_p95": 10.363452949974452,
+        "frame_duration_ms_p99": 20.85127738060776,
+        "hook_duration_ms_count": 294,
+        "hook_duration_ms_min": 33,
+        "hook_duration_ms_max": 121071,
+        "hook_duration_ms_avg": 3297.108843537415,
+        "hook_duration_ms_p50": 93,
+        "hook_duration_ms_p95": 11496.09999999992,
+        "hook_duration_ms_p99": 115455.84999999996,
+        "pre_tool_hook_duration_ms_count": 139,
+        "pre_tool_hook_duration_ms_min": 38,
+        "pre_tool_hook_duration_ms_max": 59914,
+        "pre_tool_hook_duration_ms_avg": 1029.3812949640287,
+        "pre_tool_hook_duration_ms_p50": 95,
+        "pre_tool_hook_duration_ms_p95": 496.1999999999996,
+        "pre_tool_hook_duration_ms_p99": 38166.940000000206
+      },
+      "disabledMcpServers": [
+        "plugin:airwallex-agentos:airwallex-agentos",
+        "plugin:airwallex-agentos:airwallex-dev",
+        "plugin:aws-agents-for-devsecops:aws-devops-agent",
+        "plugin:aws-data-analytics:aws-mcp",
+        "plugin:aws-serverless:aws-serverless-mcp",
+        "plugin:aws-transform:aws-transform-mcp",
+        "plugin:cloudflare:cloudflare-api",
+        "plugin:cloudflare:cloudflare-bindings",
+        "plugin:cloudflare:cloudflare-builds",
+        "plugin:cloudflare:cloudflare-observability",
+        "plugin:discord:discord",
+        "plugin:fakechat:fakechat",
+        "plugin:firebase:firebase",
+        "plugin:gitlab:gitlab",
+        "plugin:github:github",
+        "plugin:greptile:greptile",
+        "plugin:imessage:imessage",
+        "plugin:laravel-boost:laravel-boost",
+        "plugin:linear:linear",
+        "plugin:netlify-skills:netlify",
+        "plugin:posthog:posthog",
+        "plugin:postman:postman",
+        "plugin:revenuecat:RevenueCat",
+        "plugin:zoom-plugin:zoom-whiteboard-mcp",
+        "plugin:zoom-plugin:zoom-tasks-mcp",
+        "plugin:zoom-plugin:zoom-revenue-accelerator-mcp",
+        "plugin:zoom-plugin:zoom-meetings-mcp",
+        "plugin:zoom-plugin:zoom-mcp",
+        "plugin:zoom-plugin:zoom-chat-mcp",
+        "plugin:zoom-plugin:zoom-canvas-mcp",
+        "plugin:vercel:vercel",
+        "plugin:vanta:vanta-us",
+        "plugin:vanta:vanta-eu",
+        "plugin:vanta:vanta-aus",
+        "plugin:sourcegraph:sourcegraph"
+      ]
+    },
+    "/root/.claude/scripts": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": true,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "lastGracefulShutdown": true,
+      "lastVersionBase": "2.1.251",
+      "lastCost": 27.695255,
+      "lastAPIDuration": 2348767,
+      "lastAPIDurationWithoutRetries": 2179954,
+      "lastToolDuration": 334779,
+      "lastDuration": 7999805,
+      "lastStartTime": 1788151299406,
+      "lastLinesAdded": 745,
+      "lastLinesRemoved": 340,
+      "lastTotalInputTokens": 5314581,
+      "lastTotalOutputTokens": 44894,
+      "lastTotalCacheCreationInputTokens": 0,
+      "lastTotalCacheReadInputTokens": 0,
+      "lastTotalWebSearchRequests": 0,
+      "lastModelUsage": {
+        "auto": {
+          "inputTokens": 5314581,
+          "outputTokens": 44894,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 27.695255
+        }
+      },
+      "lastSessionId": "24d26fd0-5c63-433f-8a27-9e1bdc8cdf8d",
+      "lastSessionMetrics": {
+        "frame_duration_ms_count": 25210,
+        "frame_duration_ms_min": 0.06624999999985448,
+        "frame_duration_ms_max": 340.1022919998504,
+        "frame_duration_ms_avg": 2.58048697167806,
+        "frame_duration_ms_p50": 1.849661499945796,
+        "frame_duration_ms_p95": 6.0540304998867205,
+        "frame_duration_ms_p99": 10.159122459604403,
+        "hook_duration_ms_count": 138,
+        "hook_duration_ms_min": 0,
+        "hook_duration_ms_max": 120084,
+        "hook_duration_ms_avg": 5320.768115942029,
+        "hook_duration_ms_p50": 0,
+        "hook_duration_ms_p95": 30757.000000000015,
+        "hook_duration_ms_p99": 96593.41999999997,
+        "pre_tool_hook_duration_ms_count": 123,
+        "pre_tool_hook_duration_ms_min": 0,
+        "pre_tool_hook_duration_ms_max": 1,
+        "pre_tool_hook_duration_ms_avg": 0.06504065040650407,
+        "pre_tool_hook_duration_ms_p50": 0,
+        "pre_tool_hook_duration_ms_p95": 1,
+        "pre_tool_hook_duration_ms_p99": 1
+      },
+      "lastFpsAverage": 5.25,
+      "lastFpsLow1Pct": 107.04
+    },
+    "/root/freellmapi/gapi": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": false,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [],
+      "lastGracefulShutdown": false,
+      "lastVersionBase": "2.1.269"
+    }
+  },
+  "tipLifetimeShownCounts": {
+    "new-user-warmup": 1,
+    "plan-mode-for-complex-tasks": 18,
+    "memory-command": 8,
+    "theme-command": 6,
+    "status-line": 5,
+    "prompt-queue": 3,
+    "enter-to-steer-in-relatime": 6,
+    "todo-list": 6,
+    "ide-upsell-external-terminal": 21,
+    "drag-and-drop-images": 12,
+    "double-esc-code-restore": 12,
+    "continue": 12,
+    "shift-tab": 11,
+    "install-github-app": 1,
+    "install-slack-app": 1,
+    "image-paste": 6,
+    "no-flicker": 11,
+    "subagent-fanout-nudge": 23,
+    "dynamic-workflows": 23,
+    "loop-command-nudge": 23,
+    "c4e-remote-sessions": 1,
+    "permissions": 11,
+    "rename-conversation": 8,
+    "agents-view-multiclauding": 5,
+    "color-when-multi-clauding": 8,
+    "c4e-ultrareview": 1,
+    "goal-command-nudge": 1,
+    "git-worktrees": 7
+  },
+  "officialMarketplaceAutoInstallAttempted": true,
+  "officialMarketplaceAutoInstalled": true,
+  "skillUsage": {
+    "doctor": {
+      "usageCount": 1,
+      "lastUsedAt": 1787662561941
+    },
+    "happy-notes": {
+      "usageCount": 1,
+      "lastUsedAt": 1787888070027
+    },
+    "find-skills": {
+      "usageCount": 1,
+      "lastUsedAt": 1788521201095
+    },
+    "workflow-authoring": {
+      "usageCount": 2,
+      "lastUsedAt": 1788522902583
+    },
+    "update-config": {
+      "usageCount": 1,
+      "lastUsedAt": 1788522587158
+    },
+    "using-superpowers": {
+      "usageCount": 4,
+      "lastUsedAt": 1788619123647
+    },
+    "brainstorming": {
+      "usageCount": 1,
+      "lastUsedAt": 1788522916713
+    },
+    "pentest-bundle": {
+      "usageCount": 1,
+      "lastUsedAt": 1788617658924
+    },
+    "superpowers:brainstorming": {
+      "usageCount": 1,
+      "lastUsedAt": 1789129974204
+    },
+    "executing-plans": {
+      "usageCount": 1,
+      "lastUsedAt": 1789134847845
+    }
+  },
+  "workflowSizeGuideline": "unrestricted",
+  "hasSeenAutoModeEntryWarning": true,
+  "autoModeEnvSetup": {
+    "denials": 5
+  },
+  "closedIssuesLastChecked": 1789214068859,
+  "pluginUsage": {
+    "connect-apps@skills-dir": {
+      "usageCount": 0,
+      "lastUsedAt": 1788515577294,
+      "lastUsedNumStartups": 63
+    },
+    "playwright-skill@skills-dir": {
+      "usageCount": 0,
+      "lastUsedAt": 1788516156616,
+      "lastUsedNumStartups": 64
+    },
+    "superpowers@skills-dir": {
+      "usageCount": 16,
+      "lastUsedAt": 1788608372283,
+      "lastUsedNumStartups": 88
+    },
+    "agent-browser-skill@skills-dir": {
+      "usageCount": 0,
+      "lastUsedAt": 1788516452822,
+      "lastUsedNumStartups": 65
+    },
+    "frontend-design@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788517557697,
+      "lastUsedNumStartups": 68
+    },
+    "superpowers@claude-plugins-official": {
+      "usageCount": 46,
+      "lastUsedAt": 1789216241385,
+      "lastUsedNumStartups": 119
+    },
+    "code-review@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788517557697,
+      "lastUsedNumStartups": 68
+    },
+    "context7@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788615263576,
+      "lastUsedNumStartups": 92
+    },
+    "skill-creator@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788517557697,
+      "lastUsedNumStartups": 68
+    },
+    "code-simplifier@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788614476836,
+      "lastUsedNumStartups": 92
+    },
+    "playwright@claude-plugins-official": {
+      "usageCount": 2,
+      "lastUsedAt": 1789194721079,
+      "lastUsedNumStartups": 116
+    },
+    "github@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788615270514,
+      "lastUsedNumStartups": 92
+    },
+    "claude-md-management@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788517557697,
+      "lastUsedNumStartups": 68
+    },
+    "feature-dev@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788614478511,
+      "lastUsedNumStartups": 92
+    },
+    "vercel@claude-plugins-official": {
+      "usageCount": 110,
+      "lastUsedAt": 1789216241385,
+      "lastUsedNumStartups": 119
+    },
+    "security-guidance@claude-plugins-official": {
+      "usageCount": 678,
+      "lastUsedAt": 1789216598846,
+      "lastUsedNumStartups": 120
+    },
+    "typescript-lsp@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788614450227,
+      "lastUsedNumStartups": 92
+    },
+    "claude-code-setup@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788614475155,
+      "lastUsedNumStartups": 92
+    },
+    "ralph-loop@claude-plugins-official": {
+      "usageCount": 9,
+      "lastUsedAt": 1788523154151,
+      "lastUsedNumStartups": 77
+    },
+    "commit-commands@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788615262853,
+      "lastUsedNumStartups": 92
+    },
+    "figma@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788517557697,
+      "lastUsedNumStartups": 68
+    },
+    "supabase@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788517557697,
+      "lastUsedNumStartups": 68
+    },
+    "pr-review-toolkit@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788615286488,
+      "lastUsedNumStartups": 92
+    },
+    "pyright-lsp@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788614446889,
+      "lastUsedNumStartups": 92
+    },
+    "chrome-devtools-mcp@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788517557697,
+      "lastUsedNumStartups": 68
+    },
+    "telegram@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788615828626,
+      "lastUsedNumStartups": 92
+    },
+    "slack@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788517557697,
+      "lastUsedNumStartups": 68
+    },
+    "serena@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788615828631,
+      "lastUsedNumStartups": 92
+    },
+    "stripe@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788517557697,
+      "lastUsedNumStartups": 68
+    },
+    "plugin-dev@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788517557697,
+      "lastUsedNumStartups": 68
+    },
+    "agent-sdk-dev@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788517557697,
+      "lastUsedNumStartups": 68
+    },
+    "playground@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788517557697,
+      "lastUsedNumStartups": 68
+    },
+    "hookify@claude-plugins-official": {
+      "usageCount": 4048,
+      "lastUsedAt": 1789216598846,
+      "lastUsedNumStartups": 120
+    },
+    "greptile@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788517557697,
+      "lastUsedNumStartups": 68
+    },
+    "remember@claude-plugins-official": {
+      "usageCount": 2142,
+      "lastUsedAt": 1789216587757,
+      "lastUsedNumStartups": 120
+    },
+    "linear@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788615277508,
+      "lastUsedNumStartups": 92
+    },
+    "csharp-lsp@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788614441982,
+      "lastUsedNumStartups": 92
+    },
+    "learning-output-style@claude-plugins-official": {
+      "usageCount": 54,
+      "lastUsedAt": 1789216241385,
+      "lastUsedNumStartups": 119
+    },
+    "gitlab@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788615271235,
+      "lastUsedNumStartups": 92
+    },
+    "firecrawl@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788517557697,
+      "lastUsedNumStartups": 68
+    },
+    "mattpocock-skills@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788517557697,
+      "lastUsedNumStartups": 68
+    },
+    "mcp-server-dev@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788517557697,
+      "lastUsedNumStartups": 68
+    },
+    "huggingface-skills@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788517557697,
+      "lastUsedNumStartups": 68
+    },
+    "jdtls-lsp@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788614443630,
+      "lastUsedNumStartups": 92
+    },
+    "php-lsp@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788614446072,
+      "lastUsedNumStartups": 92
+    },
+    "discord@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788615265656,
+      "lastUsedNumStartups": 92
+    },
+    "coderabbit@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788517557697,
+      "lastUsedNumStartups": 68
+    },
+    "clangd-lsp@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788615257400,
+      "lastUsedNumStartups": 92
+    },
+    "microsoft-docs@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788517557697,
+      "lastUsedNumStartups": 68
+    },
+    "firebase@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788615269084,
+      "lastUsedNumStartups": 92
+    },
+    "kotlin-lsp@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788614444438,
+      "lastUsedNumStartups": 92
+    },
+    "swift-lsp@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788614449376,
+      "lastUsedNumStartups": 92
+    },
+    "laravel-boost@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788614479351,
+      "lastUsedNumStartups": 92
+    },
+    "postman@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788517557697,
+      "lastUsedNumStartups": 68
+    },
+    "datadog@claude-plugins-official": {
+      "usageCount": 15,
+      "lastUsedAt": 1788532518319,
+      "lastUsedNumStartups": 82
+    },
+    "cloudflare@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788517557697,
+      "lastUsedNumStartups": 68
+    },
+    "semgrep@claude-plugins-official": {
+      "usageCount": 55,
+      "lastUsedAt": 1788523179306,
+      "lastUsedNumStartups": 78
+    },
+    "atlassian@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788517557697,
+      "lastUsedNumStartups": 68
+    },
+    "explanatory-output-style@claude-plugins-official": {
+      "usageCount": 54,
+      "lastUsedAt": 1789216241385,
+      "lastUsedNumStartups": 119
+    },
+    "gopls-lsp@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788614442804,
+      "lastUsedNumStartups": 92
+    },
+    "sentry@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788517557697,
+      "lastUsedNumStartups": 68
+    },
+    "rust-analyzer-lsp@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788614448540,
+      "lastUsedNumStartups": 92
+    },
+    "atomic-agents@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788517557697,
+      "lastUsedNumStartups": 68
+    },
+    "data-engineering@claude-plugins-official": {
+      "usageCount": 25,
+      "lastUsedAt": 1788614503569,
+      "lastUsedNumStartups": 92
+    },
+    "expo@claude-plugins-official": {
+      "usageCount": 6,
+      "lastUsedAt": 1788522917661,
+      "lastUsedNumStartups": 77
+    },
+    "claude-security@claude-plugins-official": {
+      "usageCount": 112,
+      "lastUsedAt": 1789213117870,
+      "lastUsedNumStartups": 118
+    },
+    "imessage@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788615274031,
+      "lastUsedNumStartups": 92
+    },
+    "lua-lsp@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788614445241,
+      "lastUsedNumStartups": 92
+    },
+    "sourcegraph@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788517557697,
+      "lastUsedNumStartups": 68
+    },
+    "posthog@claude-plugins-official": {
+      "usageCount": 48,
+      "lastUsedAt": 1789215721472,
+      "lastUsedNumStartups": 119
+    },
+    "session-report@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788517557697,
+      "lastUsedNumStartups": 68
+    },
+    "circleback@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788517557697,
+      "lastUsedNumStartups": 68
+    },
+    "deploy-on-aws@claude-plugins-official": {
+      "usageCount": 4,
+      "lastUsedAt": 1788520763559,
+      "lastUsedNumStartups": 71
+    },
+    "asana@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788615255963,
+      "lastUsedNumStartups": 92
+    },
+    "pinecone@claude-plugins-official": {
+      "usageCount": 13,
+      "lastUsedAt": 1788524820960,
+      "lastUsedNumStartups": 80
+    },
+    "zilliz@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788517557697,
+      "lastUsedNumStartups": 68
+    },
+    "ruby-lsp@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788614447722,
+      "lastUsedNumStartups": 92
+    },
+    "aws-serverless@claude-plugins-official": {
+      "usageCount": 239,
+      "lastUsedAt": 1789216577503,
+      "lastUsedNumStartups": 120
+    },
+    "azure@claude-plugins-official": {
+      "usageCount": 33,
+      "lastUsedAt": 1788522917661,
+      "lastUsedNumStartups": 77
+    },
+    "mongodb@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788517557697,
+      "lastUsedNumStartups": 68
+    },
+    "aws-core@claude-plugins-official": {
+      "usageCount": 14,
+      "lastUsedAt": 1788519453067,
+      "lastUsedNumStartups": 68
+    },
+    "aikido@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788517557697,
+      "lastUsedNumStartups": 68
+    },
+    "prisma@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788517557697,
+      "lastUsedNumStartups": 68
+    },
+    "shopify-ai-toolkit@claude-plugins-official": {
+      "usageCount": 39,
+      "lastUsedAt": 1788522917661,
+      "lastUsedNumStartups": 77
+    },
+    "fakechat@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788614477668,
+      "lastUsedNumStartups": 92
+    },
+    "data@claude-plugins-official": {
+      "usageCount": 75,
+      "lastUsedAt": 1789216598846,
+      "lastUsedNumStartups": 120
+    },
+    "sonatype-guide@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788517557697,
+      "lastUsedNumStartups": 68
+    },
+    "sonarqube@claude-plugins-official": {
+      "usageCount": 4,
+      "lastUsedAt": 1788520470221,
+      "lastUsedNumStartups": 71
+    },
+    "pydantic-ai@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788519959341,
+      "lastUsedNumStartups": 69
+    },
+    "mintlify@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788519959341,
+      "lastUsedNumStartups": 69
+    },
+    "legalzoom@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788519959341,
+      "lastUsedNumStartups": 69
+    },
+    "neon@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788519959341,
+      "lastUsedNumStartups": 69
+    },
+    "twilio-developer-kit@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788519959341,
+      "lastUsedNumStartups": 69
+    },
+    "resend@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788519959341,
+      "lastUsedNumStartups": 69
+    },
+    "ai-plugins@claude-plugins-official": {
+      "usageCount": 2126,
+      "lastUsedAt": 1789216577503,
+      "lastUsedNumStartups": 120
+    },
+    "atlan@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788519959341,
+      "lastUsedNumStartups": 69
+    },
+    "redis-development@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788519959341,
+      "lastUsedNumStartups": 69
+    },
+    "snowflake-cortex-code@claude-plugins-official": {
+      "usageCount": 9,
+      "lastUsedAt": 1788521182833,
+      "lastUsedNumStartups": 72
+    },
+    "bigdata-com@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788519959341,
+      "lastUsedNumStartups": 69
+    },
+    "revenuecat@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788519959341,
+      "lastUsedNumStartups": 69
+    },
+    "brightdata-plugin@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788519959341,
+      "lastUsedNumStartups": 69
+    },
+    "ui5@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788519959341,
+      "lastUsedNumStartups": 69
+    },
+    "postiz@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788519959341,
+      "lastUsedNumStartups": 69
+    },
+    "zapier@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788519959341,
+      "lastUsedNumStartups": 69
+    },
+    "adobe-for-creativity@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788519959341,
+      "lastUsedNumStartups": 69
+    },
+    "fastly-agent-toolkit@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788519959341,
+      "lastUsedNumStartups": 69
+    },
+    "rc@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788519959341,
+      "lastUsedNumStartups": 69
+    },
+    "vanta-mcp-plugin@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788519959341,
+      "lastUsedNumStartups": 69
+    },
+    "code-modernization@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788521395272,
+      "lastUsedNumStartups": 73
+    },
+    "netlify-skills@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788521395272,
+      "lastUsedNumStartups": 73
+    },
+    "browser-use@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788521395272,
+      "lastUsedNumStartups": 73
+    },
+    "amazon-location-service@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788521395272,
+      "lastUsedNumStartups": 73
+    },
+    "dataverse@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788521395272,
+      "lastUsedNumStartups": 73
+    },
+    "intercom@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788521395272,
+      "lastUsedNumStartups": 73
+    },
+    "qt-development-skills@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788521395272,
+      "lastUsedNumStartups": 73
+    },
+    "fiftyone@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788521395272,
+      "lastUsedNumStartups": 73
+    },
+    "superdesign@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788521395272,
+      "lastUsedNumStartups": 73
+    },
+    "planetscale@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788521395272,
+      "lastUsedNumStartups": 73
+    },
+    "nimble@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788521395272,
+      "lastUsedNumStartups": 73
+    },
+    "42crunch-api-security-testing@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788521395272,
+      "lastUsedNumStartups": 73
+    },
+    "databases-on-aws@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788521395272,
+      "lastUsedNumStartups": 73
+    },
+    "data-agent-kit-starter-pack@claude-plugins-official": {
+      "usageCount": 7,
+      "lastUsedAt": 1788522916708,
+      "lastUsedNumStartups": 77
+    },
+    "cloudinary@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788521395272,
+      "lastUsedNumStartups": 73
+    },
+    "sentry-cli@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788521395272,
+      "lastUsedNumStartups": 73
+    },
+    "liquid-lsp@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788521395272,
+      "lastUsedNumStartups": 73
+    },
+    "math-olympiad@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788614480202,
+      "lastUsedNumStartups": 92
+    },
+    "pagerduty@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788522876810,
+      "lastUsedNumStartups": 77
+    },
+    "liquid-skills@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788612721560,
+      "lastUsedNumStartups": 89
+    },
+    "zoom-plugin@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788612721560,
+      "lastUsedNumStartups": 89
+    },
+    "clangd-lsp@claude-plugins-official csharp-lsp@claude-plugins-official gopls-lsp@claude-plugins-official jdtls-lsp@claude-plugins-official kotlin-lsp@claude-plugins-official lua-lsp@claude-plugins-official php-lsp@claude-plugins-official pyright-lsp@claude-plugins-official ruby-lsp@claude-plugins-official rust-analyzer-lsp@claude-plugins-official swift-lsp@claude-plugins-official typescript-lsp@claude-plugins-official explanatory-output-style@claude-plugins-official learning-output-style@claude-plugins-official claude-code-setup@claude-plugins-official claude-security@claude-plugins-official code-simplifier@claude-plugins-official fakechat@claude-plugins-official feature-dev@claude-plugins-official laravel-boost@claude-plugins-official math-olympiad@claude-plugins-official data@claude-plugins-official data-engineering@claude-plugins-official expo@claude-plugins-official fiftyone@claude-plugins-official firecrawl@claude-plugins-official liquid-lsp@claude-plugins-official microsoft-docs@claude-plugins-official nimble@claude-plugins-official redis-development@claude-plugins-official sentry-cli@claude-plugins-official sonatype-guide@claude-plugins-official superdesign@claude-plugins-official chrome-devtools-mcp@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788614427169,
+      "lastUsedNumStartups": 92
+    },
+    "alloydb@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788616628174,
+      "lastUsedNumStartups": 94
+    },
+    "alloydb-omni@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788616628174,
+      "lastUsedNumStartups": 94
+    },
+    "altimate-code@claude-plugins-official": {
+      "usageCount": 1,
+      "lastUsedAt": 1788616648093,
+      "lastUsedNumStartups": 94
+    },
+    "amplitude@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788616628174,
+      "lastUsedNumStartups": 94
+    },
+    "apollo@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788616628174,
+      "lastUsedNumStartups": 94
+    },
+    "airwallex-agentos@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788616757764,
+      "lastUsedNumStartups": 95
+    },
+    "aws-agents-for-devsecops@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788616757764,
+      "lastUsedNumStartups": 95
+    },
+    "aws-data-analytics@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788616757764,
+      "lastUsedNumStartups": 95
+    },
+    "aws-transform@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788616757764,
+      "lastUsedNumStartups": 95
+    },
+    "azure-cosmos-db-assistant@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788616757764,
+      "lastUsedNumStartups": 95
+    },
+    "azure-sql-developer@claude-plugins-official": {
+      "usageCount": 0,
+      "lastUsedAt": 1788619953201,
+      "lastUsedNumStartups": 103
+    }
+  },
+  "pluginUsageLspGraceAppliedIds": [
+    "typescript-lsp@claude-plugins-official",
+    "pyright-lsp@claude-plugins-official",
+    "csharp-lsp@claude-plugins-official",
+    "jdtls-lsp@claude-plugins-official",
+    "php-lsp@claude-plugins-official",
+    "clangd-lsp@claude-plugins-official",
+    "kotlin-lsp@claude-plugins-official",
+    "swift-lsp@claude-plugins-official",
+    "gopls-lsp@claude-plugins-official",
+    "rust-analyzer-lsp@claude-plugins-official",
+    "lua-lsp@claude-plugins-official",
+    "ruby-lsp@claude-plugins-official",
+    "liquid-lsp@claude-plugins-official"
+  ],
+  "mcpNeedsAuthNoticed": [
+    "plugin:vercel:vercel",
+    "plugin:cloudflare:cloudflare-api",
+    "plugin:cloudflare:cloudflare-bindings",
+    "plugin:cloudflare:cloudflare-builds",
+    "plugin:cloudflare:cloudflare-observability",
+    "plugin:netlify-skills:netlify",
+    "plugin:revenuecat:RevenueCat",
+    "plugin:vanta:vanta-us",
+    "plugin:vanta:vanta-eu",
+    "plugin:vanta:vanta-aus",
+    "plugin:gitlab:gitlab",
+    "plugin:linear:linear",
+    "plugin:airwallex-agentos:airwallex-dev",
+    "plugin:airwallex-agentos:airwallex-agentos",
+    "plugin:postman:postman",
+    "plugin:posthog:posthog"
+  ]
+}

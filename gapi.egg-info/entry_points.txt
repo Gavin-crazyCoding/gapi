@@ -1,0 +1,2 @@
+[console_scripts]
+gapi-manage = cli.manage:app

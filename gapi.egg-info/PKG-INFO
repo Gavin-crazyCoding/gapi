@@ -1,0 +1,143 @@
+Metadata-Version: 2.4
+Name: gapi
+Version: 0.1.0
+Summary: FreeLLM API secondary business gateway (user-facing): auth, key exchange, metered GavinCoin billing
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: fastapi>=0.115
+Requires-Dist: uvicorn[standard]>=0.30
+Requires-Dist: sqlalchemy>=2.0.30
+Requires-Dist: alembic>=1.13
+Requires-Dist: httpx>=0.27
+Requires-Dist: pydantic>=2.7
+Requires-Dist: pydantic-settings>=2.3
+Requires-Dist: email-validator>=2.1
+Requires-Dist: PyJWT>=2.8
+Requires-Dist: bcrypt>=4.1
+Requires-Dist: typer>=0.12
+Requires-Dist: rich>=13.7
+Requires-Dist: tiktoken>=0.8
+Requires-Dist: python-multipart>=0.0.9
+Provides-Extra: dev
+Requires-Dist: pytest>=8; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.23; extra == "dev"
+
+# gapi — FreeLLM API 二级业务网关
+
+面向终端用户的网关：注册登录、签发 gapi Key、代理转发到 FreeLLM API、
+按 GavinCoin 计量扣费。管理操作全部走 `manage.py` CLI，不提供管理员 HTTP 界面。
+
+`gapi/` 是独立的 Python 项目，数据库 (`data/gapi.db`) 与 `server/data/freellmapi.db`
+完全隔离，不 import 也不修改 `server/`、`client/`、`shared/` 下任何代码。
+
+## 启动
+
+```bash
+# 终端 1：上游 FreeLLM API
+cd freellmapi && docker compose up          # 或 cd server && npm run dev
+
+# 终端 2：gapi
+cd freellmapi/gapi
+python -m venv .venv && source .venv/bin/activate
+pip install -e '.[dev]'
+cp .env.example .env                        # 填入 FREELLM_API_KEY 和 GAPI_JWT_SECRET
+alembic upgrade head
+python manage.py pricing seed               # 写入默认定价
+uvicorn app.main:app --port 3002 --reload
+```
+
+`app.main:app` 同时提供 **API** 和 **用户面板**：
+打开 <http://localhost:3002/> 即是注册/登录页，健康检查是 `GET /health`。
+
+## 用户面板
+
+`web/` 下是零构建的静态页面（原生 HTML/CSS/JS，没有 node_modules、没有打包步骤），
+由 FastAPI 的 `StaticFiles` 挂在 `/`。改完刷新浏览器即可，不需要重启。
+
+四个标签页：
+
+- **概览** —— 余额、30 天消耗与请求数、按天 token 柱状图、最近请求
+- **密钥** —— 创建 / 删除 gapi Key（明文只在创建时显示一次）
+- **账单** —— 余额、代币包购买、流水
+- **用量** —— 按模型 / 按天统计
+
+注册页默认展示赠送额度（读 `GET /config`，随 `GAPI_REGISTRATION_BONUS` 变化）。
+注册接口本身就返回 JWT，所以注册成功后直接进面板，不需要再登录一次。
+
+> `client/` 是 FreeLLM API 的**管理员 dashboard**，走 `server/` 的 `/api/*`，
+> 和 gapi 是两套独立的东西，本项目不碰它。
+
+## HTTP 面
+
+| 端点 | 认证 | 说明 |
+|---|---|---|
+| `POST /auth/register` | — | 注册，赠送 GavinCoin，返回 JWT |
+| `POST /auth/login` | — | 登录，返回 JWT |
+| `GET /auth/me` | JWT | 当前用户 |
+| `GET/POST/DELETE /user/keys` | JWT | gapi Key 增删查（明文只在创建时返回一次） |
+| `GET /user/balance` | JWT | 余额 |
+| `GET /user/packages` | JWT | 代币包列表 |
+| `POST /user/packages` | JWT | 购买代币包（◎1 = `GAPI_TOKEN_PACKAGE_RATE` 千 token） |
+| `GET /user/transactions` | JWT | 流水 |
+| `GET /user/usage` | JWT | 按天用量 |
+| `GET /user/usage/models` | JWT | 按模型用量 |
+| `GET /user/usage/recent` | JWT | 最近请求 |
+| `GET /user/dashboard` | JWT | 面板汇总 |
+| `POST /v1/chat/completions` 等 | gapi Key | 转发到上游，计费 |
+| `GET /health` | — | 健康检查 |
+| `GET /config` | — | 面板用的公开配置（赠送额度、兑换率） |
+| `GET /` | — | 用户面板（静态页面） |
+
+转发的上游端点见 `app/routers/proxy.py` 的 `ROUTES`：
+`/v1/chat/completions`、`/v1/embeddings`、`/v1/messages`、`/v1/responses`、
+`/v1/images|videos/generations`、`/v1/audio/speech`、`/v1beta/*`。
+未列出的路径返回 404 `endpoint_not_forwarded`，不会被转发。
+
+### 错误契约
+
+gapi 自身的错误统一为 `{"error": {"code", "message"}}` 并带 `X-Gapi-Error: 1`，
+**包括** FastAPI 自带的 422/404/405/500。上游的错误体原样透传，不加该头 ——
+客户端据此区分「网关拒绝」和「上游返回」。
+
+### 注册的 IP 限制
+
+`GAPI_REGISTRATION_ONE_PER_IP=true` 时每个来源 IP 只能注册一个账号。
+IP 取自 `X-Forwarded-For` 最左项，回退到 socket 地址。**该头由调用方控制**，
+所以这只是防随手多开的减速带，不是认证边界。共用 NAT 出口的网络需设为 `false`。
+
+## 计费
+
+请求前按 `max_tokens` 预扣上限，响应后按实际 usage 结算、差额退回：
+
+```
+cost = prompt_tokens/1000 * input_per_1k + completion_tokens/1000 * output_per_1k
+```
+
+- 预扣在 `BEGIN IMMEDIATE` 事务里执行，两个并发请求不会同时看到足额余额
+  （`tests/test_phase3_billing.py::test_concurrent_reserves_cannot_overdraw`）。
+- 预扣金额向上取整，保证结算时不会超出已检查的额度。
+- 余额不足返回 402，**在转发之前**，不会打到上游。
+- 流式请求客户端中断时按已产生的 token 结算，状态记为 `interrupted`。
+- 未定价的模型回退到 gpt-4o 费率（宁可多收，不免费）。
+
+Token 计数优先读上游 usage 字段，缺失时才用 tiktoken 估算。
+
+## CLI
+
+```bash
+python manage.py coin grant <email> <amount> [--note]
+python manage.py coin balance <email>
+python manage.py coin history <email> [--limit 20]
+python manage.py user list
+python manage.py user activate|deactivate <email>
+python manage.py pricing set <model> --input <rate> --output <rate>
+python manage.py pricing list
+python manage.py pricing seed
+python manage.py usage user <email> [--from YYYY-MM-DD] [--to YYYY-MM-DD]
+```
+
+## 测试
+
+```bash
+PYTHONPATH=$(pwd) .venv/bin/pytest -q
+```

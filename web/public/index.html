@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>gapi · 免费大模型网关</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="/style.css?v=20260919a">
+</head>
+<body>
+
+<div class="landing">
+  <!-- ── 左侧：产品介绍（匿名访客也能看到） ─────────────────────── -->
+  <section class="hero">
+    <div class="brand"><span class="dot"></span>gapi</div>
+    <h1>一个密钥，调用全网免费大模型</h1>
+    <p class="lead">
+      gapi 是架设在 FreeLLM 免费模型池之上的二级网关：自动故障转移、自动挑选可用模型，
+      完全兼容 OpenAI 与 Anthropic 接口，现有代码几乎零改动即可接入。
+    </p>
+
+    <ul class="features">
+      <li>
+        <span class="ic">⚡</span>
+        <div><b>自动路由</b><br><span>auto 自动选择当前最可用的免费模型，支持最快速 / 最智能 / 均衡 / 最稳定策略，故障自动切换。</span></div>
+      </li>
+      <li>
+        <span class="ic">🔑</span>
+        <div><b>一个密钥走天下</b><br><span>创建一把 gapi 密钥即可调用全部模型，兼容 OpenAI、Anthropic SDK 与 Claude Code。</span></div>
+      </li>
+      <li>
+        <span class="ic">◎</span>
+        <div><b>GavinCoin 计量</b><br><span>按 token 透明计费，注册即送启动额度；订阅配额计划享批量折扣，先用配额、后按量。</span></div>
+      </li>
+      <li>
+        <span class="ic">📊</span>
+        <div><b>用量可查</b><br><span>每一次请求的模型、token、花费、耗时和状态都有记录，面板随时可查。</span></div>
+      </li>
+    </ul>
+
+    <div class="pills">
+      <span class="pill">OpenAI 兼容</span>
+      <span class="pill">Anthropic 兼容</span>
+      <span class="pill">流式 SSE</span>
+      <span class="pill">Function Calling</span>
+      <span class="pill">Gemini 接口</span>
+    </div>
+  </section>
+
+  <!-- ── 右侧：登录 / 注册卡片 ────────────────────────────────── -->
+  <div id="auth" class="hidden">
+    <div class="card">
+      <div class="brand" style="margin-bottom:20px"><span class="dot"></span>gapi</div>
+
+      <h1 id="authTitle">创建账号</h1>
+      <p class="sub" id="authSub" style="margin-bottom:0">注册即可获得启动额度</p>
+
+      <div id="bonusNote" class="bonus">新用户注册赠送 <b>◎ <span id="bonusAmt">20</span></b> GavinCoin</div>
+
+      <form id="authForm">
+        <label for="email">邮箱</label>
+        <input id="email" type="email" autocomplete="username" placeholder="you@example.com" required>
+
+        <label for="password">密码</label>
+        <input id="password" type="password" autocomplete="current-password" placeholder="至少 8 位" required>
+
+        <button class="primary" id="authBtn" type="submit">注册</button>
+      </form>
+
+      <div class="msg" id="authMsg"></div>
+      <div class="switch" id="authSwitch">已有账号？<a id="toLogin">登录</a></div>
+    </div>
+  </div>
+
+  <div class="landing-foot">gapi · 仅供学习与研究使用 · 模型服务由上游 FreeLLM API 提供</div>
+</div>
+
+<script src="/fp.js?v=20260919a"></script>
+<script src="/app.js?v=20260919a"></script>
+</body>
+</html>
