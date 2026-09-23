@@ -264,7 +264,9 @@ email 关闭、经济参数固定 100/20）——settings 有缓存，新测试�
 
 ## 12. 已知边界（有意为之，非遗漏）
 
-- gapi 侧无请求体大小上限（upstream 有 25MB）——先读入内存，超大请求靠 upstream 拒绝。
+- ~~gapi 侧无请求体大小上限~~（2026-09-23 起取消该边界）：`GAPI_MAX_BODY_BYTES`
+  （默认 25MiB，对齐 upstream）在 `run_proxy` 入口先查 Content-Length、再按流式
+  累计字节兜底，超限即 413 `payload_too_large`，不再依赖 upstream 拒绝。
 - `settle` 允许超出预扣的追加扣款（余额可为负）——上游实际 usage 大于 tiktoken
   预估时优先保服务可用，`test_phase3` 固定该行为。
 - `ApiKey.quota` 列已存储但无消耗语义（语义未定义前不实现）。

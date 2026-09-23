@@ -76,6 +76,21 @@ class Settings(BaseSettings):
         validation_alias=AliasChoices("GAPI_REGISTRATION_BONUS"),
     )
 
+    # Proxy ingress: hard cap on one request body. Upstream enforces its own
+    # 25 MB, but the gateway materializes the body in memory before billing,
+    # so it must not rely on the upstream cap never changing (design §12).
+    max_body_bytes: int = Field(
+        default=25 * 1024 * 1024,
+        validation_alias=AliasChoices("GAPI_MAX_BODY_BYTES"),
+    )
+    # Comma-separated IPs of trusted reverse proxies. X-Forwarded-For is only
+    # honoured when the direct peer is in this list; empty = never trust it
+    # (the right default for a directly-exposed gapi).
+    trusted_proxy_ips: str = Field(
+        default="",
+        validation_alias=AliasChoices("GAPI_TRUSTED_PROXY_IPS"),
+    )
+
     # Email verification
     smtp_host: str = Field(
         default="localhost",
@@ -118,6 +133,12 @@ class Settings(BaseSettings):
     @property
     def is_production(self) -> bool:
         return self.jwt_secret != "dev-insecure-secret-change-me"
+
+    @property
+    def trusted_proxy_ip_set(self) -> frozenset[str]:
+        return frozenset(
+            ip.strip() for ip in self.trusted_proxy_ips.split(",") if ip.strip()
+        )
 
 
 @lru_cache

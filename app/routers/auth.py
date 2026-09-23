@@ -6,10 +6,11 @@ from datetime import datetime, timezone
 from decimal import Decimal
 
 from fastapi import APIRouter, Depends, Request, Response
-from sqlalchemy import func, select
+from sqlalchemy import func, select, text
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
+from app.config import settings
 from app.database import get_db
 from app.deps import SESSION_COOKIE, get_current_user
 from app.errors import GapiError
@@ -70,10 +71,20 @@ def _utcnow() -> datetime:
 
 
 def _client_ip(request: Request) -> str:
-    xff = request.headers.get("x-forwarded-for")
-    if xff:
-        return xff.split(",")[0].strip()
-    return request.client.host if request.client else "unknown"
+    """Peer IP for rate-limit keys.
+
+    X-Forwarded-For is client-controlled: honouring it unconditionally lets a
+    caller mint a fresh limiter bucket per request and defeat the
+    register/login limits entirely. Only trust it when the direct peer is a
+    configured trusted proxy (GAPI_TRUSTED_PROXY_IPS); otherwise key on the
+    actual peer.
+    """
+    peer = request.client.host if request.client else "unknown"
+    if peer in settings.trusted_proxy_ip_set:
+        xff = request.headers.get("x-forwarded-for")
+        if xff:
+            return xff.split(",")[0].strip()
+    return peer
 
 
 @router.post("/register", response_model=TokenResponse, status_code=201)
@@ -85,6 +96,11 @@ def register(
 ) -> TokenResponse:
     from app.services import coin, ratelimit
     ratelimit.check(f"register:{_client_ip(request)}", limit=20, window_seconds=3600)
+    # BEGIN IMMEDIATE takes SQLite's write lock up front (same discipline as
+    # billing), so the first-user-is-admin check below and the insert are
+    # serialized against a concurrent registration: two racing signups can
+    # never both observe an empty users table and both crown themselves admin.
+    db.execute(text("BEGIN IMMEDIATE"))
     if not coin.registration_open(db):
         raise GapiError(403, "registration_closed", "当前未开放注册")
 

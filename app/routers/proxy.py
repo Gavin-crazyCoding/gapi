@@ -212,6 +212,37 @@ def _routed_rates(db: Session, headers: httpx.Headers, requested_model: str) -> 
     return billing.get_rates(db, routed_model)
 
 
+async def _read_bounded_body(request: Request, limit: int) -> bytes:
+    """Read the request body, refusing anything over ``limit`` bytes.
+
+    The upstream 25 MB cap is upstream's, not ours: the body is materialized
+    in memory before billing, so the gateway needs its own bound. The
+    Content-Length check is a cheap early rejection; the streamed count is
+    the real guard, since the header can be absent (chunked) or a lie, and
+    the read aborts as soon as the limit is crossed instead of allocating
+    the whole body first.
+    """
+    declared = request.headers.get("content-length")
+    if declared is not None:
+        try:
+            if int(declared) > limit:
+                raise GapiError(
+                    413, "payload_too_large", f"Request body exceeds {limit} bytes"
+                )
+        except ValueError:
+            pass  # a garbage Content-Length falls through to the streamed count
+    chunks: list[bytes] = []
+    size = 0
+    async for chunk in request.stream():
+        size += len(chunk)
+        if size > limit:
+            raise GapiError(
+                413, "payload_too_large", f"Request body exceeds {limit} bytes"
+            )
+        chunks.append(chunk)
+    return b"".join(chunks)
+
+
 async def run_proxy(
     full_path: str,
     request: Request,
@@ -230,7 +261,7 @@ async def run_proxy(
     if full_path not in ROUTES and full_path not in UNMETERED and not full_path.startswith("/v1beta"):
         raise GapiError(404, "endpoint_not_forwarded", f"{full_path} is not proxied by gapi")
 
-    raw = await request.body()
+    raw = await _read_bounded_body(request, settings.max_body_bytes)
     body: dict = {}
     if raw:
         try:
