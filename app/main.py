@@ -75,23 +75,39 @@ def _error_body(code: str, message: str) -> dict:
 
 
 def create_app() -> FastAPI:
+    # The OpenAPI spec and Swagger/Redoc UIs are disabled: they expose the
+    # full endpoint list and schema to any visitor, which is an information-
+    # disclosure vector on a public gateway. The panel's own /docs tab is a
+    # hand-written static file, not the auto-generated UI.
     app = FastAPI(
         title="gapi — FreeLLM user gateway",
         version=__version__,
         lifespan=lifespan,
+        openapi_url=None,
+        docs_url=None,
+        redoc_url=None,
     )
 
     # Compress text/JSON/JS before it leaves the origin: the model catalog and
     # tab modules shrink ~80%, which matters on slow/CF-proxied links.
     app.add_middleware(GZipMiddleware, minimum_size=500, compresslevel=6)
 
-    # SDK/browser clients may call gapi cross-origin; proxy auth is key-based.
+    # CORS is scoped, not wildcard: the proxy surface is key-authed and must
+    # not be exposed to every origin. Only the configured panel origins may
+    # read the response headers; the API itself still requires a gapi key.
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["*"],
-        allow_credentials=False,
-        allow_methods=["*"],
-        allow_headers=["*"],
+        allow_origins=settings.cors_allowed_origin_list,
+        allow_credentials=True,
+        allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        allow_headers=[
+            "Authorization",
+            "Content-Type",
+            "X-Requested-With",
+            "X-API-Key",
+            "X-Fingerprint",
+            "X-Request-ID",
+        ],
         expose_headers=[
             "X-Routed-Via",
             "X-Fallback-Attempts",

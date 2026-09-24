@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 
+import re
 from datetime import datetime
 from decimal import Decimal
-from typing import Literal
+from typing import Any, Literal
 
-from pydantic import BaseModel, Field, field_serializer
+from pydantic import BaseModel, Field, field_serializer, field_validator
 
 # ── API keys ────────────────────────────────────────────────────────────
 
@@ -83,10 +84,47 @@ class ModelListOut(BaseModel):
 
 
 class PackagePurchase(BaseModel):
-    """Buy prepaid tokens with GavinCoin."""
+    """Buy prepaid tokens with GavinCoin.
+
+    ``cost`` is a Decimal with a strict ``gt=0`` constraint. The pentest
+    finding was that the schema accepted a string like "-0.5" because the
+    ``anyOf`` form let the string branch bypass the numeric lower bound; the
+    fix is a single typed Decimal field plus a validator that normalises
+    strings and rejects anything that is not a positive finite number.
+    """
 
     cost: Decimal = Field(gt=0, description="GavinCoin to spend")
     valid_days: int | None = Field(default=None, ge=1, le=3650)
+
+    @field_validator("cost", mode="before")
+    @classmethod
+    def _normalise_cost(cls, v: Any) -> Decimal:
+        """Accept str/float/int, reject anything that is not a positive number."""
+        if v is None:
+            raise ValueError("cost is required")
+        if isinstance(v, bool):
+            raise ValueError("cost must be a number, not a boolean")
+        if isinstance(v, Decimal):
+            pass
+        elif isinstance(v, (int, float)):
+            v = Decimal(str(v))
+        elif isinstance(v, str):
+            if not v:
+                raise ValueError("cost is not a valid decimal")
+            # Reject scientific notation, leading plus signs, and whitespace —
+            # they are not how a purchase amount is expressed and invite abuse.
+            if not re.match(r"^-?\d+(\.\d+)?$", v):
+                raise ValueError(f"cost is not a valid decimal: {v!r}")
+            v = Decimal(v)
+        else:
+            raise ValueError(f"cost must be a number, got {type(v).__name__}")
+        if v != v:  # NaN
+            raise ValueError("cost must not be NaN")
+        if v in (Decimal("Infinity"), Decimal("-Infinity")):
+            raise ValueError("cost must be finite")
+        if v <= 0:
+            raise ValueError("cost must be greater than zero")
+        return v
 
 
 class PackageOut(BaseModel):

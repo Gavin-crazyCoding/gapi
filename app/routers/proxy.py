@@ -24,12 +24,13 @@ from app.database import get_db
 from app.deps import KeyPrincipal, get_key_principal
 from app.errors import GapiError
 from app.models import ApiKey, User
-from app.services import billing
+from app.services import billing, ratelimit
 from app.services.headers import (
     build_upstream_headers,
     forward_response_headers,
     sanitize_query_params,
 )
+from app.services.prompt_guard import scan_body
 from app.services.token_counter import estimate_request_tokens
 from app.services.upstream import get_client, route_timeout
 from app.services.usage_parser import SSEDecoder, StreamUsageTracker, WireKind, extract_usage
@@ -258,6 +259,9 @@ async def run_proxy(
     usage records carry no key id. ``record_endpoint`` overrides the endpoint
     label written to usage_records (e.g. ``/playground/chat``).
     """
+    # Rate limit check: 100 requests per hour per API key to prevent abuse
+    api_key_prefix = api_key.key_prefix if api_key else "unknown"
+    ratelimit.check(f"proxy:{api_key_prefix}:{request.client.host if request.client else 'unknown'}", limit=100, window_seconds=3600)
     if full_path not in ROUTES and full_path not in UNMETERED and not full_path.startswith("/v1beta"):
         raise GapiError(404, "endpoint_not_forwarded", f"{full_path} is not proxied by gapi")
 
@@ -272,6 +276,16 @@ async def run_proxy(
             # Non-JSON payloads (multipart audio, say) forward untouched and
             # simply bill nothing on the prompt side.
             body = {}
+
+    # Prompt-injection guard: scan the user-authored text *before* billing or
+    # forwarding. The upstream LLM carries its own system prompt and gapi does
+    # not inject one, so this is a gateway-level refusal, not a model fix.
+    if scan_body(body) is not None:
+        raise GapiError(
+            400,
+            "prompt_injection_detected",
+            "请求内容包含可能的指令注入模式，已被网关拒绝",
+        )
 
     request_id = request.headers.get("x-request-id") or f"gapi-{uuid.uuid4().hex[:16]}"
     kind = _wire_kind(full_path)

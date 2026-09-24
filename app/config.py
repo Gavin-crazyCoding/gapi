@@ -83,6 +83,15 @@ class Settings(BaseSettings):
         default=25 * 1024 * 1024,
         validation_alias=AliasChoices("GAPI_MAX_BODY_BYTES"),
     )
+    # Comma-separated list of origins allowed to read gapi responses
+    # cross-origin. Empty = CORS disabled entirely (the safe default for a
+    # directly-exposed gateway). The panel origins are configured here so the
+    # web UI can fetch its own data; the key-authed proxy surface is NOT in
+    # this list by default.
+    cors_allowed_origins: str = Field(
+        default="",
+        validation_alias=AliasChoices("GAPI_CORS_ALLOWED_ORIGINS"),
+    )
     # Comma-separated IPs of trusted reverse proxies. X-Forwarded-For is only
     # honoured when the direct peer is in this list; empty = never trust it
     # (the right default for a directly-exposed gapi).
@@ -139,6 +148,11 @@ class Settings(BaseSettings):
         return frozenset(
             ip.strip() for ip in self.trusted_proxy_ips.split(",") if ip.strip()
         )
+
+    @property
+    def cors_allowed_origin_list(self) -> list[str]:
+        """CORS allow-list, split and stripped; empty list = CORS disabled."""
+        return [o.strip() for o in self.cors_allowed_origins.split(",") if o.strip()]
 
 
 @lru_cache
